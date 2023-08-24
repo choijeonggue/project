@@ -1,5 +1,6 @@
 package com.joongang.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,36 +19,40 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @Log4j
 @RequestMapping("/board")
-@RequiredArgsConstructor
 public class BoardController {
 
-	private final BoardService service;
+	@Autowired
+	private  BoardService boardService;
 	
 	@GetMapping("/list")
 	public void list(Model model) {
-		log.info("list");
-		model.addAttribute("list",service.getList());
+		model.addAttribute("list",boardService.getList());
+	}
+
+	@GetMapping({"/get","/modify"})
+	public void get(Long bno, Model model) {
+		log.info("/get..............");
+		model.addAttribute("board",boardService.get(bno));
 	}
 	
+	@GetMapping("/register")
+	public void register() {}
+	
+	
 	@PostMapping("/register")
-	public String register(BoardVO board, RedirectAttributes rttr) {
-		log.info("register : " + board);
-		service.register(board);
-		rttr.addFlashAttribute("result" , board.getBno());
+	public String register(BoardVO vo, RedirectAttributes rttr) {
+		boardService.register(vo);
+		rttr.addFlashAttribute("result" , vo.getBno()); // list.jsp  ${result}
+		rttr.addFlashAttribute("operation","register");
 		return "redirect:/board/list";
 	}
 	
-	@GetMapping("/get")
-	public void get(@RequestParam("bno") Long bno, Model model) {
-		log.info("/get.......");
-		model.addAttribute("board",service.get(bno));
-	}
 
 	@PostMapping("/modify")
-	public String modify(BoardVO board, RedirectAttributes rttr) {
-		log.info("modify : "+board);
-		if(service.modify(board)) {
-			rttr.addFlashAttribute("result","success");
+	public String modify(BoardVO vo, RedirectAttributes rttr) {
+		if(boardService.modify(vo)) {
+			rttr.addFlashAttribute("result",vo.getBno());
+			rttr.addFlashAttribute("operation","modify");
 		}
 		return "redirect:/board/list";
 		
@@ -55,13 +60,10 @@ public class BoardController {
 	
 	@PostMapping("/remove")
 	public String remove(Long bno, RedirectAttributes rttr) {
-		log.info("remove : "+bno);
-		if(service.remove(bno)) {
-			rttr.addFlashAttribute("result","success");
-			
+		if(boardService.remove(bno)) {
+			rttr.addFlashAttribute("result",bno);
+			rttr.addFlashAttribute("operation","remove");
 		}
-		
 		return "redirect:/board/list";
 	}
-	
 }

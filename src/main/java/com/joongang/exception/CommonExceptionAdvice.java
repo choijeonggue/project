@@ -24,7 +24,8 @@ public class CommonExceptionAdvice {
 	
 	@ExceptionHandler(NoHandlerFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public String handle404(NoHandlerFoundException ex) {
+	public String handle404() {
+		log.info("no handler");
 		return "custom404";
 	}
 

@@ -20,10 +20,10 @@ import lombok.extern.log4j.Log4j;
 @ContextConfiguration(classes= {RootConfig.class, ServletConfig.class})
 @WebAppConfiguration
 @Log4j
-public class BoardMapperTest {
+public class BoardRepositoryTest {
 
 	@Autowired
-	private BoardMapper mapper;
+	private BoardRepository mapper;
 	
 	@Test
 	@Ignore

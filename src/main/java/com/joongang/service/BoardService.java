@@ -6,14 +6,15 @@ import com.joongang.domain.BoardVO;
 
 public interface BoardService {
 	
-	void register(BoardVO board);
+	List<BoardVO> getList(); // 목록
 	
-	BoardVO get(Long bno);
+	void register(BoardVO board); //등록
 	
-	boolean modify(BoardVO board);
+	BoardVO get(Long bno); //조회
 	
-	boolean remove(Long bno);
+	boolean modify(BoardVO board); // 수정 
 	
-	List<BoardVO> getList();
+	boolean remove(Long bno); // 삭제
+	
 
 }

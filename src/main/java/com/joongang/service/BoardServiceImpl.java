@@ -5,46 +5,42 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.joongang.domain.BoardVO;
-import com.joongang.repository.BoardMapper;
+import com.joongang.repository.BoardRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
 @Service
 @RequiredArgsConstructor
-@Log4j
 public class BoardServiceImpl implements BoardService {
 
-	private final BoardMapper mapper;
+	
+	private final BoardRepository boardRepositroy;
+
+	@Override
+	public List<BoardVO> getList() {
+		return boardRepositroy.getList();
+	}
 	
 	@Override
 	public void register(BoardVO board) {
-		log.info("register....."+board);
-		mapper.insertSelectKey(board);
+		boardRepositroy.insertSelectKey(board);
 	}
 
 	@Override
 	public BoardVO get(Long bno) {
-		log.info("get....."+bno);
-		return mapper.read(bno);
+		return boardRepositroy.read(bno);
 	}
 
 	@Override
 	public boolean modify(BoardVO board) {
-		log.info("modify....."+board);
-		return mapper.update(board)==1;
+		return boardRepositroy.update(board)==1;
 	}
 
 	@Override
 	public boolean remove(Long bno) {
-		log.info("remove"+bno);
-		return mapper.delete(bno)==1;
+		return boardRepositroy.delete(bno)==1;
 	}
 
-	@Override
-	public List<BoardVO> getList() {
-		log.info("getList.......");
-		return mapper.getList();
-	}
 
 }
