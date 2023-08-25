@@ -1,6 +1,7 @@
 package com.joongang.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,14 +29,15 @@ public class BoardVO {
 	private String content;
 	private String writer;
 	
+	private int replyCnt;
+	
 	@DateTimeFormat(pattern = "yyyy년MM월dd일 HH:mm분")
 	private LocalDateTime regDate;
 		
 	@DateTimeFormat(pattern = "yyyy년MM월dd일 HH:mm분")
 	private LocalDateTime updateDate;
 	
-	
-	
+	private List<BoardAttachVO> attachList;
 	
 	
 }

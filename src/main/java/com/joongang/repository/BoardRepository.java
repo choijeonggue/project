@@ -26,4 +26,8 @@ public interface BoardRepository {
 	
 	//전체 게시물 수
 	int getTotalCount(Criteria criteria);
+	
+	//amount = 댓글 추가 :1 댓글 감소 : -1
+	void updateReplyCnt(@Param("bno")Long bno, @Param("amount")int amount);
+	
 }

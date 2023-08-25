@@ -4,7 +4,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-12">
-			<h1 class="page-header">글 조회</h1>
+			<h1 class="page-header">상품 조회</h1>
 		</div>
 	</div>
 	
@@ -31,6 +31,7 @@
 						<label>작성자</label>
 						<input class="form-control" name="writer" value="${board.writer }" readonly="readonly"/>
 					</div>
+					<div class="getBtns">
 					<button data-oper='modify' class="btn btn-light modify">수정</button>
 					<button data-oper='list' class="btn btn-info list">목록</button>						
 				</div>
@@ -38,6 +39,22 @@
 		</div>
 	</div>
 </div>
+
+<div class="row my-5">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h4>첨부 파일</h4>
+				</div>
+				<div class="card-body">
+					<div class="uploadResultDiv mt-3"> <!-- 파일업로드 결과 보여주기  -->
+			<ul class="list-group"></ul>
+		</div>
+	</div> <!-- card-body -->
+</div> <!-- caard end -->
+</div> <!-- col end -->
+</div><!-- row end -->
+
 
 	<h3 class="mt-5">댓글</h3>
 	<div class="row">
@@ -88,9 +105,23 @@
 </div> <!-- end container -->
 
 
+
 <form>
 	<input type="hidden" name="bno"  value="${board.bno}">
 </form>
+
+<!-- 원본 이미지 모달창 -->
+<div class="modal fade" id="showImage">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+	        <div class="modal-header">
+	            <h4 class="modal-title">원본 이미지 보기</h4>
+	            <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        </div>
+	        <div class="modal-body"></div>
+        </div>
+    </div>
+</div>
 
 <%@ include file="../includes/footer.jsp" %>
 

@@ -15,6 +15,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -22,6 +25,8 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 @MapperScan("com.joongang.repository") // 매퍼를 찾아 스프링빈으로 등록
 @PropertySource(value = "classpath:database/db.properties")
+@EnableTransactionManagement // 트랜잭션 설정
+@EnableScheduling
 public class RootConfig {
 	
 	@Value("${db.driver}")
@@ -37,7 +42,7 @@ public class RootConfig {
 	private String password;
 	
 	
-	@Bean
+	@Bean(destroyMethod = "close")
 	public DataSource dataSource() {
 		HikariConfig config = new HikariConfig();
 		config.setDriverClassName(driverClassName);
@@ -74,6 +79,11 @@ public class RootConfig {
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
 		return new PropertySourcesPlaceholderConfigurer(); 
+	}
+	
+	@Bean
+	public DataSourceTransactionManager transactionManager() {
+		return new DataSourceTransactionManager(dataSource());
 	}
 
 }

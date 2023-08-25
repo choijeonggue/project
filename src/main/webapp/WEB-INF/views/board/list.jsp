@@ -41,7 +41,8 @@
 							<tr>
 								<td>${board.bno}</td>
 								<td>
-									<a class="move" href="${board.bno}">${board.title}</a>
+									<a class="move" href="${board.bno}">
+									${board.title} ${board.replyCnt == 0 ? '' : [board.replyCnt]}</a>
 								</td>
 								<td>${board.writer }</td>
 								<td><tf:formatDateTime value="${board.regDate }" pattern="yyyy년MM월dd일 HH:mm분"/></td>
