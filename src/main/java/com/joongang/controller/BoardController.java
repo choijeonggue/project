@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.joongang.domain.BoardVO;
+import com.joongang.domain.Criteria;
+import com.joongang.domain.Pagination;
 import com.joongang.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,13 +27,15 @@ public class BoardController {
 	private  BoardService boardService;
 	
 	@GetMapping("/list")
-	public void list(Model model) {
-		model.addAttribute("list",boardService.getList());
+	public void list(Model model, Criteria criteria) {
+		model.addAttribute("list",boardService.getList(criteria));
+		model.addAttribute("p", new Pagination(criteria, boardService.totalCount(criteria)));
 	}
 
 	@GetMapping({"/get","/modify"})
-	public void get(Long bno, Model model) {
-		log.info("/get..............");
+	public void get(Long bno, Model model, Criteria criteria) {
+		log.info(bno);
+		log.info(criteria);
 		model.addAttribute("board",boardService.get(bno));
 	}
 	
@@ -49,21 +53,21 @@ public class BoardController {
 	
 
 	@PostMapping("/modify")
-	public String modify(BoardVO vo, RedirectAttributes rttr) {
+	public String modify(BoardVO vo, RedirectAttributes rttr, Criteria criteria) {
 		if(boardService.modify(vo)) {
 			rttr.addFlashAttribute("result",vo.getBno());
 			rttr.addFlashAttribute("operation","modify");
 		}
-		return "redirect:/board/list";
+		return "redirect:/board/list"+criteria.getListLink();
 		
 	}
 	
 	@PostMapping("/remove")
-	public String remove(Long bno, RedirectAttributes rttr) {
+	public String remove(Long bno, RedirectAttributes rttr, Criteria criteria) {
 		if(boardService.remove(bno)) {
 			rttr.addFlashAttribute("result",bno);
 			rttr.addFlashAttribute("operation","remove");
 		}
-		return "redirect:/board/list";
+		return "redirect:/board/list"+criteria.getListLink();
 	}
 }

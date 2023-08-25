@@ -12,8 +12,17 @@
 		<div class="col-12">
 			<div class="card">
 				<div class="card-header">
-				<h3 class="float-left">#</h3>
-				<button id="regBtn" class="btn btn-xs btn-primary float-right">등록</button>
+				<h3 class="float-left"></h3>
+				<div class ="float-right d-flex">
+				<select class="amount form-control mx-2">
+					<option value="10" ${criteria.amount==10 ? 'selected':''}>10개씩 보기</option>
+					<option value="15" ${criteria.amount==15 ? 'selected':''}>15개씩 보기</option>
+					<option value="20" ${criteria.amount==20 ? 'selected':''}>20개씩 보기</option>
+					<option value="25" ${criteria.amount==20 ? 'selected':''}>25개씩 보기</option>
+					<option value="30" ${criteria.amount==30 ? 'selected':''}>30개씩 보기</option>
+				</select>
+				<a href="${ctxPath}/board/register" class="btn btn-warning">글</a>
+				</div>
 				</div>
 				<div class="card-body">
 					<table class="table table-striped table-bordered table-hover">
@@ -27,19 +36,71 @@
 							</tr>
 						</thead>
 						<tbody>
+						<c:if test="${not empty list }">
 						<c:forEach items="${list}" var="board">
 							<tr>
 								<td>${board.bno}</td>
 								<td>
-								<a href="${ctxPath}/board/get?bno=${board.bno}">${board.title }</a>
+									<a class="move" href="${board.bno}">${board.title}</a>
 								</td>
 								<td>${board.writer }</td>
-								<td><tf:formatDateTime value="${board.regDate }" pattern="yyyy-MM-dd HH:mm"/></td>
-								<td><tf:formatDateTime value="${board.updateDate }" pattern="yyyy-MM-dd HH:mm"/></td>
+								<td><tf:formatDateTime value="${board.regDate }" pattern="yyyy년MM월dd일 HH:mm분"/></td>
+								<td><tf:formatDateTime value="${board.updateDate }" pattern="yyyy년MM월dd일 HH:mm분"/></td>
 							</tr>
 						</c:forEach>
+						</c:if>
+						<c:if test="${empty list}">
+								<tr><td colspan="5">게시물이 존재하지 않습니다.</td></tr>
+						</c:if>
 						</tbody>
 					</table>
+					
+					<form class="my-3" id="searchForm" action="${ctxPath}/board/list">
+						<div class="d-inline-block">
+							<select name="type" class="form-control">
+								<option value="" ${p.criteria.type == null ? 'selected' : '' }>------</option>
+								<option value="T" ${p.criteria.type eq 'T' ? 'selected' : '' }>제목</option>
+								<option value="C" ${p.criteria.type eq 'C' ? 'selected' : '' }>내용</option>
+								<option value="W" ${p.criteria.type eq 'W' ? 'selected' : '' }>작성자</option>
+								<option value="TC" ${p.criteria.type eq 'TC' ? 'selected' : '' }>제목+내용</option>
+								<option value="TW" ${p.criteria.type eq 'TW' ? 'selected' : '' }>제목+작성자</option>
+								<option value="TCW" ${p.criteria.type eq 'TCW' ? 'selected' : '' }>제목+내용+작성자</option>
+							</select>
+						</div>
+						<div class="d-inline-block col-4">
+							<input type="text" name="keyword" value="${p.criteria.keyword}" class="form-control">
+						</div>
+						<div class="d-inline-block">
+							<button class="btn btn-primary">검색</button>
+						</div>
+						<div class="d-inline-block">
+							<a href="${ctxPath}/board/list" class="btn btn-outline-info">새로고침</a>
+						</div>
+						<input type="hidden" name="pageNum" value="${p.criteria.pageNum}">
+						<input type="hidden" name="amount" value="${p.criteria.amount}">
+					</form>					
+					
+					<ul class="pagination justify-content-center">
+						<c:if test="${p.prev }">
+							<li class="page-item">
+								<a class="page-link" href="${p.startPage-p.displayPageNum}">이전페이지</a>
+							</li>
+						</c:if>
+						<c:forEach begin="${p.startPage}" end="${p.endPage }" var="pagelink">
+							<li class="page-item ${ pagelink == p.criteria.pageNum ? 'active':''}">
+								<a href="${pagelink}" class="page-link ">${pagelink}</a>
+							</li>
+						</c:forEach>
+						<c:if test="${p.next }">
+							<li class="page-item">
+								<a class="page-link" href="${p.endPage+1}">다음페이지</a>
+							</li>
+						</c:if>
+					</ul>
+					<form id="listForm" action="${ctxPath}/board/list" method="get">
+						<input type="hidden" name="pageNum" value="${p.criteria.pageNum}">
+						<input type="hidden" name="amount" value="${p.criteria.amount}">
+					</form>
 				</div>
 			</div>
 		</div>
@@ -70,10 +131,20 @@
     </div>
 </div>
 
+${criteria.type}
 
 <script>
 $(function(){
-	let result = "${result}";
+	let result = "${result}"; // 처리 후 응답
+	let searchForm = $('#searchForm'); // 검색 폼
+	let listForm = $('#listForm'); // 페이지 폼
+	let searchCondition = function(){
+		if(searchForm.find('option:selected').val() && searchForm.find('[name="keyword"]')){ // 검색 조건이 있을 때
+			listForm.append($('<input/>',{type : 'hidden', name : 'type', value : '${criteria.type}'}))
+					.append($('<input/>',{type : 'hidden', name : 'keyword', value : '${criteria.keyword}'}))
+		}		
+	} 
+	
 	checkModal(result);
 	
 	function checkModal(result){
@@ -91,8 +162,54 @@ $(function(){
 	
 	// 글쓰기 페이지로 이동
 	$('#regBtn').click(function(){
-		self.location = '${ctxPath}/board/register'
+		searchCondition();
+		listForm.attr('action','${ctxPath}/board/register')
+				.submit();
 	});
+	
+	// 페이지 이동 
+	$('.pagination a').click(function(e){
+		e.preventDefault();
+		let pageNum = $(this).attr('href');
+		listForm.find('input[name="pageNum"]').val(pageNum)
+		searchCondition();
+		listForm.submit();
+	});	
+	
+	// 조회 페이지로 이동 
+	$('.move').click(function(e){
+		e.preventDefault();
+		let bnoValue = $(this).attr('href');
+		searchCondition();	
+		listForm.append($('<input/>',{type : 'hidden', name : 'bno', value : bnoValue}))
+				.attr('action','${ctxPath}/board/get')
+				.submit();
+	});
+	
+	// 게시물 수 변경 
+	$('.amount').change(function(){
+		let amount = $(this).val();
+		searchCondition();
+		listForm.find('input[name="amount"]').val(amount)
+		listForm.submit();		
+	})
+	
+	// 검색 이벤트 처리 
+	
+	$('#searchForm button').click(function(e){
+		e.preventDefault();
+		if(!searchForm.find('option:selected').val()){
+			alert('검색종류를 선택하세요');
+			return; 
+		}
+		if(!searchForm.find('[name="keyword"]').val()){
+			alert('키워드를 입력하세요');
+			return; 
+		}
+		searchForm.find('[name="pageNum"]').val(1); 
+		searchForm.submit();
+	});
+	
 })
 
 </script>

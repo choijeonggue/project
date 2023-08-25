@@ -11,7 +11,7 @@
 	</appender>
 	
  	 <!-- Application Loggers -->
-    <logger name="com.jafa" >
+    <logger name="com.joongang" >
         <level value="info" />
     </logger>
     

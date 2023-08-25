@@ -28,10 +28,10 @@ public class BoardVO {
 	private String content;
 	private String writer;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy년MM월dd일 HH:mm분")
 	private LocalDateTime regDate;
 		
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy년MM월dd일 HH:mm분")
 	private LocalDateTime updateDate;
 	
 	

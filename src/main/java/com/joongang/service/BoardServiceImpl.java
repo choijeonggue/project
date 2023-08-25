@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.joongang.domain.BoardVO;
+import com.joongang.domain.Criteria;
 import com.joongang.repository.BoardRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ public class BoardServiceImpl implements BoardService {
 	private final BoardRepository boardRepositroy;
 
 	@Override
-	public List<BoardVO> getList() {
-		return boardRepositroy.getList();
+	public List<BoardVO> getList(Criteria criteria) {
+		return boardRepositroy.getList(criteria);
 	}
 	
 	@Override
@@ -40,6 +41,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public boolean remove(Long bno) {
 		return boardRepositroy.delete(bno)==1;
+	}
+
+	@Override
+	public int totalCount(Criteria criteria) {
+		return boardRepositroy.getTotalCount(criteria);
 	}
 
 

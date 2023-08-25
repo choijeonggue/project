@@ -3,10 +3,11 @@ package com.joongang.service;
 import java.util.List;
 
 import com.joongang.domain.BoardVO;
+import com.joongang.domain.Criteria;
 
 public interface BoardService {
 	
-	List<BoardVO> getList(); // 목록
+	List<BoardVO> getList(Criteria criteria); // 목록
 	
 	void register(BoardVO board); //등록
 	
@@ -15,6 +16,9 @@ public interface BoardService {
 	boolean modify(BoardVO board); // 수정 
 	
 	boolean remove(Long bno); // 삭제
+	
+	//게시물수
+	int totalCount(Criteria criteria);
 	
 
 }

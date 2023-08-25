@@ -2,6 +2,8 @@ package com.joongang.repository;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,35 +25,38 @@ import lombok.extern.log4j.Log4j;
 public class BoardRepositoryTest {
 
 	@Autowired
-	private BoardRepository mapper;
+	private BoardRepository boardRepository;
+	
+	
+//	@Test
+//	public void testGetList() {
+//		List<BoardVO> list = boardRepository.getList(3, 10);
+//		log.info(list.size());
+//		list.forEach(b->log.info(b));
+//	}
 	
 	@Test
 	@Ignore
-	public void test() {
-		mapper.getList().forEach(board -> log.info(board));
-	}
-	
-	@Test
 	public void testInsertSelectKey() {
 		BoardVO board = new BoardVO();
 		board.setTitle("새로 작성하는 글 select key");
 		board.setContent("새로 작성하는 내용 select key");
 		board.setWriter("newbie");
-		mapper.insertSelectKey(board);
+		boardRepository.insertSelectKey(board);
 		log.info(board);
 		
 	}
 	@Test
 	@Ignore
 	public void testRead() {
-		BoardVO board = mapper.read(5L);
+		BoardVO board = boardRepository.read(5L);
 		log.info(board);
 	}
 	
 	@Test
 	@Ignore
 	public void testDelete() {
-		log.info("DELETE COUNT : "+ mapper.delete(3L));
+		log.info("DELETE COUNT : "+ boardRepository.delete(3L));
 	}
 
 	@Test
@@ -63,7 +68,7 @@ public class BoardRepositoryTest {
 		board.setContent("수정된 내용");
 		board.setWriter("user00");
 		
-		int count = mapper.update(board);
+		int count = boardRepository.update(board);
 		log.info("UPDATE COUNT : "+ count);
 	}
 }

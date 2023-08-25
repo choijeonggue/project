@@ -59,14 +59,28 @@ $(function(){
 	let formObj = $('form')
 	$('button').click(function(){
 		let operation =$(this).data('oper')
+		let type = '${criteria.type}'
+		let keyword = '${criteria.keyword}'
+		
+		let addCriteria = function(){
+			formObj.append($('<input/>',{type : 'hidden', name : 'pageNum', value : '${criteria.pageNum}'}))
+				   .append($('<input/>',{type : 'hidden', name : 'amount', value : '${criteria.amount}'}))
+			if(type&&keyword){
+				formObj.append($('<input/>',{type : 'hidden', name : 'type', value : '${criteria.type}'}))
+					.append($('<input/>',{type : 'hidden', name : 'keyword', value : '${criteria.keyword}'}))
+			}
+		}
+		addCriteria();
+		
 		if(operation=='remove'){
-			formObj.attr('action','${ctxPath}/board/remove')
-					.submit();
+			formObj.attr('action','${ctxPath}/board/remove');
 		} else if (operation=='list'){
-			self.location='${ctxPath}/board/list'
-		} else {
-			formObj.submit();
-		}		
+			formObj.empty();
+			addCriteria();
+			formObj.attr('action','${ctxPath}/board/list')
+				   .attr('method','get');
+		} 	
+		formObj.submit();
 	});	
-})
+});
 </script>
