@@ -50,9 +50,6 @@ public class FileUploadController {
 			String uuid = UUID.randomUUID().toString();
 			File saveFile = new File(uploadPath,uuid + "_" + filName);
 			
-			log.info("filName : "+filName);
-			log.info("savFile : "+saveFile);
-			
 			attachVO.setFileName(filName); 
 			attachVO.setUuid(uuid);
 			attachVO.setUploadPath(getFolder());

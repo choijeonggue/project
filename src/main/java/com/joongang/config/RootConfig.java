@@ -1,6 +1,7 @@
 package com.joongang.config;
 
 import java.io.IOException;
+import java.security.Security;
 
 import javax.sql.DataSource;
 
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -27,6 +29,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @PropertySource(value = "classpath:database/db.properties")
 @EnableTransactionManagement // 트랜잭션 설정
 @EnableScheduling
+@Import({SecurityConfig.class})
 public class RootConfig {
 	
 	@Value("${db.driver}")

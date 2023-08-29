@@ -32,7 +32,9 @@
 						<input class="form-control" name="writer" value="${board.writer }" readonly="readonly"/>
 					</div>
 					<div class="getBtns">
+					<sec : authorize access="isAuthenticated() and principal.username== #board.writer or hasRole('ROLE_ADMIN')">
 					<button data-oper='modify' class="btn btn-light modify">수정</button>
+					</sec>
 					<button data-oper='list' class="btn btn-info list">목록</button>						
 				</div>
 			</div>
@@ -69,7 +71,7 @@
 					    <div class="comment_wrap">
 					      <div class="comment_info">
 					        <span class="userName badge badge-pill badge-info mr-2">익명</span>
-					        <span class="badge badge-dark">2023-08-24 16:30</span>
+					        <span class="badge badge-dark">2023-08-29 16:30</span>
 					      </div>
 					      <div class="comment_content py-2">댓글 내용입니다. </div>
 					    </div>

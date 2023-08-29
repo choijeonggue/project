@@ -63,25 +63,15 @@ public class BoardController {
 	@PostMapping("/register")
 	public String register(BoardVO vo, RedirectAttributes rttr) {
 		log.info(vo.getAttachList());
-//		boardService.register(vo);
-//		rttr.addFlashAttribute("result" , vo.getBno()); // list.jsp  ${result}
-//		rttr.addFlashAttribute("operation","register");
+		boardService.register(vo);
+		rttr.addFlashAttribute("result" , vo.getBno()); // list.jsp  ${result}
+		rttr.addFlashAttribute("operation","register");
 		return "redirect:/board/list";
 	}
 	
 
 	@PostMapping("/modify")
 	public String modify(BoardVO vo, RedirectAttributes rttr, Criteria criteria) {
-		List<BoardAttachVO> attachList = vo.getAttachList();
-		
-		List<BoardAttachVO> insertList = attachList.stream()
-				.filter(attach->attach.getBno()==null).collect(Collectors.toList());
-		log.info("새로 추가"+insertList);
-		
-		List<BoardAttachVO> delList = attachList.stream()
-				.filter(attach->attach.getBno()==null).collect(Collectors.toList());
-		log.info("삭제 목록"+insertList);
-		
 		if(boardService.modify(vo)) {
 			rttr.addFlashAttribute("result",vo.getBno());
 			rttr.addFlashAttribute("operation","modify");

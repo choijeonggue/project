@@ -24,8 +24,9 @@
 						</div>
 						<div class="form-group">
 							<label>작성자</label>
-							<input class="form-control" name="writer"/>
+							<input class="form-control" name="writer" value="${authInfo.memberId}" readonly="readonly"/>
 						</div>
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token }">
 						<button type="button" class="btn btn-outline-primary register">등록</button>
 						<button type="button" class="btn btn-outline-info list">목록</button>						
 					</form>

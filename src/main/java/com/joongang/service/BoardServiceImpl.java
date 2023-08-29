@@ -73,17 +73,6 @@ public class BoardServiceImpl implements BoardService {
 		
 		return boardRepositroy.update(board)==1;
 	}
-	
-	private void deleteFiles(List<BoardAttachVO> delList) {
-		delList.forEach(vo->{
-			File file = new File("C:/storage/"+vo.getUploadPath(),vo.getUuid() + "_" + vo.getFileName());
-			file.delete();
-			if(vo.isFileType()) {
-				file = new File("C:/storage/"+vo.getUploadPath(),"s_"+vo.getUuid() + "_" + vo.getFileName());
-				file.delete();
-			}
-		});
-	}
 
 	@Transactional
 	@Override
@@ -111,4 +100,14 @@ public class BoardServiceImpl implements BoardService {
 		return boardAttachRepository.selectByUuid(uuid);
 	}
 
+	private void deleteFiles(List<BoardAttachVO> delList) {
+		delList.forEach(vo->{
+			File file = new File("C:/storage/"+vo.getUploadPath(),vo.getUuid() + "_" + vo.getFileName());
+			file.delete();
+			if(vo.isFileType()) {
+				file = new File("C:/storage/"+vo.getUploadPath(),"s_"+vo.getUuid() + "_" + vo.getFileName());
+				file.delete();
+			}
+		});
+	}
 }

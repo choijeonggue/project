@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomeController {
 	
 	public HomeController() {
-		System.out.println("HomeController 빈 생성");
+		
 	}
 	
 	@GetMapping("/")
