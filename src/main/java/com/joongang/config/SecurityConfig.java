@@ -33,9 +33,6 @@ import lombok.extern.log4j.Log4j;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
-	DataSource dataSource;
-	
-	@Autowired
 	CustomUserDetailService customUserDetailService;
 	
 	@Autowired
@@ -46,6 +43,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	AuthenticationFailureHandler authenticationFailureHandler;
+
+	@Autowired
+	DataSource dataSource;
 
 	// Spring Security의 웹 보안 설정
 	@Override
@@ -78,12 +78,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 	}
 	
-	@Bean
-	public PersistentTokenRepository persistentTokenRepository() {
-		JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl = new JdbcTokenRepositoryImpl();
-		jdbcTokenRepositoryImpl.setDataSource(dataSource);
-		return jdbcTokenRepositoryImpl; 
-	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -97,10 +91,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		return new BCryptPasswordEncoder();
 	}
 	
-	
-	
-	
-	
-	
+	@Bean
+	public PersistentTokenRepository persistentTokenRepository() {
+		JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl = new JdbcTokenRepositoryImpl();
+		jdbcTokenRepositoryImpl.setDataSource(dataSource);
+		return jdbcTokenRepositoryImpl; 
+	}
 	
 }

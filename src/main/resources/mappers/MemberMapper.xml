@@ -34,5 +34,23 @@
 		insert into tbl_member(memberId,memberPwd,memberName,email)
 		values(#{memberId},#{memberPwd},#{memberName},#{email})
 	</insert>
+	
+	<select id="selectById" resultType="memberVO">
+		select memberId, memberName, email
+		from tbl_member where memberId=#{memberId}
+	</select>
+
+	<update id="update">
+		update tbl_member set
+			memberName = #{memberName}, 
+			email = #{email}
+		where memberId = #{memberId}
+	</update>
+	
+	<update id="updatePassword">
+		update tbl_member set
+			memberPwd = #{memberPwd} 
+		where memberId = #{memberId}
+	</update>
 
 </mapper>

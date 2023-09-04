@@ -45,6 +45,7 @@
 						<button type="button" data-oper='modify' class="btn btn-light">수정</button>
 						<button type="button" data-oper='remove' class="btn btn-danger">삭제</button>
 						<button type="button" data-oper='list' class="btn btn-info">목록</button>
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					</form>						
 				</div>
 			</div>
@@ -52,23 +53,23 @@
 	</div>
 </div>
 
-				<div class="row my-5">
-						<div class="col-lg-12">
-							<div class="card">
-								<div class="card-header">
-									<h4>파일 첨부</h4>
-								</div>
-								<div class="card-body">
-									<div class="uploadDiv">
-										<input type="file" name="uploadFile" multiple="multiple">
-									</div>
-									<div class="uploadResultDiv mt-3"> <!-- 파일업로드 결과 보여주기  -->
-										<ul class="list-group"></ul>
-									</div>
-								</div> <!-- card-body -->
-							</div> <!-- card end -->
-						</div> <!-- col end -->
-					</div><!-- row end -->
+<div class="row my-5">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<h4>파일 첨부</h4>
+				</div>
+				<div class="card-body">
+					<div class="uploadDiv">
+						<input type="file" name="uploadFile" multiple="multiple">
+					</div>
+					<div class="uploadResultDiv mt-3"> <!-- 파일업로드 결과 보여주기  -->
+				<ul class="list-group"></ul>
+				</div>
+			</div> <!-- card-body -->
+		</div> <!-- card end -->
+	</div> <!-- col end -->
+</div><!-- row end -->
 
 <%@ include file="../includes/footer.jsp" %>
 

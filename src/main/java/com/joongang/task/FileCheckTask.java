@@ -25,7 +25,7 @@ public class FileCheckTask {
 	@Autowired
 	BoardAttachRepository boardAttachRepository;
 
-	@Scheduled(cron = "0/20 * * * * *")
+	@Scheduled(cron = "0/20 0 0 * * *")
 	public void checkFile() {
 		
 		/* 데이터베이스에 기록된 파일 정보 */

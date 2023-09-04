@@ -34,7 +34,7 @@
 					<div class="getBtns">
 					<sec : authorize access="isAuthenticated() and principal.username== #board.writer or hasRole('ROLE_ADMIN')">
 					<button data-oper='modify' class="btn btn-light modify">수정</button>
-					</sec>
+					</sec :authorize>
 					<button data-oper='list' class="btn btn-info list">목록</button>						
 				</div>
 			</div>
@@ -71,7 +71,7 @@
 					    <div class="comment_wrap">
 					      <div class="comment_info">
 					        <span class="userName badge badge-pill badge-info mr-2">익명</span>
-					        <span class="badge badge-dark">2023-08-29 16:30</span>
+					        <span class="badge badge-dark">2023-08-31 16:30</span>
 					      </div>
 					      <div class="comment_content py-2">댓글 내용입니다. </div>
 					    </div>
@@ -93,20 +93,23 @@
 		<div class="col-12 pagination_wrap"></div>
 	</div>
 	
-	<!-- 댓글작성 -->	
-	<div class="my-3 replyWriterForm">
+<!-- 댓글작성 -->	
+<div class="my-3 replyWriterForm">
+	<sec:authorize access="isAnonymous()">
+		<textarea  rows="6" placeholder="로그인한 사용자만 댓글을 쓸 수 있어요." readonly="readonly" 
+			maxlength="400" class="replyContent form-control"></textarea>
+	</sec:authorize>
+	<sec:authorize access="isAuthenticated()">
 		<textarea  rows="6" placeholder="댓글을 작성해주세요" 
 			maxlength="400" class="replyContent form-control"></textarea>
 		<div class="text-right">
 			<div class="submit p-2">
-				<span class="btn btn-outline-info col-2 replyer">익명</span>
+				<span class="btn btn-outline-info col-2 replyer">${authInfo.memberId}</span>
 				<button class="btn btn-outline-primary col-3">등록</button>
 			</div>
 		</div>
-	</div>
-</div> <!-- end container -->
-
-
+	</sec:authorize>
+</div>
 
 <form>
 	<input type="hidden" name="bno"  value="${board.bno}">
@@ -129,6 +132,7 @@
 
 <script>
 $(function(){
+	
 	// 목록 or 수정 페이지로
 	let form = $('form')
 	$('.getBtns button').click(function() {

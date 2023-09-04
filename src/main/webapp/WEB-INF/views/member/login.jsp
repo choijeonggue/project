@@ -4,7 +4,7 @@
 
 <div class="container login_area d-flex justify-content-center align-items-center">
 	<div class="w-50">
-		<h1 class="text-center py-3">로그인 페이지</h1>
+		<h1 class="text-center py-3">로그인</h1>
 		<form method="post" action="${ctxPath}/member/login">
 			<div class="form-group">
 				<input type="text" class="form-control" name="memberId" value="${memberId}" placeholder="아이디">

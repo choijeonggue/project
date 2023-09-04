@@ -1,5 +1,6 @@
 package com.joongang.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberVO {
+public class MemberVO implements Serializable{
 
 	private String memberId;
 	private String memberPwd;

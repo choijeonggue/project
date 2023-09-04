@@ -17,7 +17,7 @@
 	  					</a>
 					</li>
 					<li class="nav-item">
-	  					<a class="nav-link" href="member/join">회원가입</a>
+	  					<a class="nav-link" href="join/step1">회원가입</a>
 					</li>          
 				</c:if>
                 <!--일반회원일 때의 상단 메뉴-->
